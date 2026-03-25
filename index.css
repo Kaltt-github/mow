@@ -288,14 +288,14 @@ h1, h2, h3, h4, .nav-logo, .btn-rpg, .step-num {
     box-shadow: none;
     border: none;
     background: transparent;
-    border-radius: 0.25rem;
-    color: var(--accent-gold);
+    border-radius: 0.5rem;
+    color: #fff;
 }
 
 .nav-links .btn-rpg:hover {
     transform: none;
     box-shadow: none;
-    background: transparent;
+    background: rgba(255, 255, 255, 0.08);
     color: #fff;
 }
 
@@ -1243,7 +1243,6 @@ h1, h2, h3, h4, .nav-logo, .btn-rpg, .step-num {
 
 .btn-discord-login:hover {
     background: #4752c4;
-    transform: translateY(-1px);
 }
 
 .btn-discord-login svg {
