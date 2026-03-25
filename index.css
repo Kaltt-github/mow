@@ -58,6 +58,8 @@
             rgba(18, 14, 24, 0.94) 95%,
             var(--bg-main) 100%
         );
+    --container-max: 1100px;
+    --section-space: clamp(5rem, 10vw, 8rem);
 }
 
 html {
@@ -73,6 +75,11 @@ body {
     line-height: 1.6;
 }
 
+img {
+    display: block;
+    max-width: 100%;
+}
+
 h1, h2, h3, h4, .nav-logo, .btn-rpg, .step-num {
     font-family: 'Alagard', monospace;
     font-weight: normal;
@@ -82,9 +89,9 @@ h1, h2, h3, h4, .nav-logo, .btn-rpg, .step-num {
    UTILITIES
    ═══════════════════════════════════════ */
 .container {
-    max-width: 1100px;
+    width: min(100%, var(--container-max));
     margin: 0 auto;
-    padding: 0 2rem;
+    padding: 0 clamp(1rem, 4vw, 2rem);
 }
 
 .text-gold {
@@ -100,7 +107,7 @@ h1, h2, h3, h4, .nav-logo, .btn-rpg, .step-num {
     left: 0;
     width: 100%;
     z-index: 1000;
-    padding: 1.4rem 0;
+    padding: clamp(1rem, 2vw, 1.4rem) 0;
     transition: padding 0.3s ease;
 }
 
@@ -110,8 +117,9 @@ h1, h2, h3, h4, .nav-logo, .btn-rpg, .step-num {
 
 .nav-container {
     width: fit-content;
+    max-width: calc(100% - 2rem);
     margin: 0 auto;
-    padding: 0.35rem 0.75rem;
+    padding: 0.35rem clamp(0.75rem, 2vw, 1rem);
     position: relative;
     display: flex;
     justify-content: center;
@@ -166,6 +174,8 @@ h1, h2, h3, h4, .nav-logo, .btn-rpg, .step-num {
     gap: 0.2rem;
     align-items: center;
     justify-content: center;
+    flex-wrap: wrap;
+    max-width: 100%;
     padding: 0.35rem;
     background: transparent;
     border: none;
@@ -187,6 +197,7 @@ h1, h2, h3, h4, .nav-logo, .btn-rpg, .step-num {
     font-family: 'Alagard', monospace;
     letter-spacing: 0;
     border-radius: 0.5rem;
+    white-space: nowrap;
 }
 
 .nav-links a:hover {
@@ -220,7 +231,7 @@ h1, h2, h3, h4, .nav-logo, .btn-rpg, .step-num {
 
 .nav-toggle {
     position: absolute;
-    right: 2rem;
+    right: clamp(1rem, 3vw, 2rem);
     display: none;
     flex-direction: column;
     gap: 4px;
@@ -304,7 +315,7 @@ h1, h2, h3, h4, .nav-logo, .btn-rpg, .step-num {
     width: 100%;
     text-align: center;
     height: auto;
-    min-height: 100vh;
+    min-height: 100svh;
     overflow: hidden;
 }
 
@@ -321,7 +332,8 @@ h1, h2, h3, h4, .nav-logo, .btn-rpg, .step-num {
 
 .hero-bg img {
     width: 100%;
-    height: 100vh;
+    height: 100%;
+    min-height: 100svh;
     object-fit: cover;
     object-position: center 30%;
     image-rendering: pixelated;
@@ -398,8 +410,8 @@ h1, h2, h3, h4, .nav-logo, .btn-rpg, .step-num {
     position: relative;
     z-index: 3;
     width: 100%;
-    min-height: 100vh;
-    padding: 2rem;
+    min-height: 100svh;
+    padding: clamp(6rem, 10vw, 8rem) clamp(1rem, 4vw, 2rem) clamp(3rem, 6vw, 4rem);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -429,6 +441,8 @@ h1, h2, h3, h4, .nav-logo, .btn-rpg, .step-num {
     text-shadow: 0 0 24px rgba(255, 255, 255, 0.16);
     text-align: center;
     margin-top: -8vh;
+    padding-inline: 0.2em;
+    text-wrap: balance;
 }
 
 .hero-title span {
@@ -498,7 +512,7 @@ h1, h2, h3, h4, .nav-logo, .btn-rpg, .step-num {
    SECTION GLOBALS
    ═══════════════════════════════════════ */
 .section {
-    padding: 8rem 0;
+    padding: var(--section-space) 0;
 }
 
 /* Clean alternating backgrounds for better flow */
@@ -535,7 +549,7 @@ h1, h2, h3, h4, .nav-logo, .btn-rpg, .step-num {
    ═══════════════════════════════════════ */
 .section-with-bg {
     position: relative;
-    padding: 8rem 0;
+    padding: var(--section-space) 0;
     overflow: hidden;
 }
 
@@ -593,16 +607,17 @@ h1, h2, h3, h4, .nav-logo, .btn-rpg, .step-num {
     ═══════════════════════════════════════ */
 .features-edge-bg-section {
     position: relative;
-    padding: 8rem 0;
+    padding: var(--section-space) 0;
 }
 
 .features-edge-bg {
     position: absolute;
     top: 0;
     left: 0;
-    width: 50%; /* Image takes up the left half */
+    width: min(50%, 46rem); /* Image takes up the left half */
     height: 100%;
     z-index: 0;
+    pointer-events: none;
 }
 
 .features-edge-image-container {
@@ -632,7 +647,7 @@ h1, h2, h3, h4, .nav-logo, .btn-rpg, .step-num {
 /* Right-aligned version for Niutem section */
 .section.features-edge-bg-section-right {
     position: relative;
-    padding: 8rem 0;
+    padding: var(--section-space) 0;
     background-color: var(--bg-main);
 }
 
@@ -641,9 +656,10 @@ h1, h2, h3, h4, .nav-logo, .btn-rpg, .step-num {
     top: 0;
     right: 0;
     left: auto;
-    width: 50%; /* Image takes up the right half */
+    width: min(50%, 46rem); /* Image takes up the right half */
     height: 100%;
     z-index: 0;
+    pointer-events: none;
 }
 
 .features-edge-bg-right .features-edge-image-container img {
@@ -665,25 +681,51 @@ h1, h2, h3, h4, .nav-logo, .btn-rpg, .step-num {
 }
 .features-imposing-layout {
     display: grid;
-    grid-template-columns: 1fr 1.2fr;
-    gap: 6rem;
+    grid-template-columns: minmax(17rem, 0.95fr) minmax(0, 1.2fr);
+    gap: clamp(2.5rem, 6vw, 6rem);
     align-items: start;
+}
+
+.features-layout-reverse {
+    grid-template-columns: minmax(0, 1.2fr) minmax(17rem, 0.95fr);
 }
 
 .features-sticky-header {
     position: sticky;
     top: 120px;
+    align-self: start;
+}
+
+.features-eyebrow {
+    display: block;
+    margin-bottom: 1rem;
+    font-family: 'Alagard', monospace;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+}
+
+.features-title {
+    font-size: clamp(2.75rem, 5vw, 4rem);
+    line-height: 1.1;
+    margin-bottom: 2rem;
+}
+
+.features-description {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    max-width: 18.75rem;
 }
 
 .features-list {
     display: flex;
     flex-direction: column;
     gap: 4rem;
+    min-width: 0;
 }
 
 .feature-block {
     position: relative;
-    padding-left: 3rem;
+    padding-left: clamp(2rem, 4vw, 3rem);
     border-left: 2px solid var(--border-dark);
     transition: border-color 0.3s;
 }
@@ -709,13 +751,13 @@ h1, h2, h3, h4, .nav-logo, .btn-rpg, .step-num {
 }
 
 .feature-block h3 {
-    font-size: 2rem;
+    font-size: clamp(1.5rem, 3vw, 2rem);
     color: #fff;
     margin-bottom: 1rem;
 }
 
 .feature-block p {
-    font-size: 1.1rem;
+    font-size: clamp(1rem, 2vw, 1.1rem);
     color: var(--text-muted);
     line-height: 1.8;
 }
@@ -928,7 +970,7 @@ h1, h2, h3, h4, .nav-logo, .btn-rpg, .step-num {
 .pricing-showcase {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 2.5rem;
+    gap: clamp(2rem, 4vw, 2.5rem);
     align-items: start;
 }
 
@@ -941,7 +983,7 @@ h1, h2, h3, h4, .nav-logo, .btn-rpg, .step-num {
 }
 
 .pricing-info h2 {
-    font-size: 2.5rem;
+    font-size: clamp(2rem, 4vw, 2.5rem);
     color: #fff;
     margin-bottom: 1rem;
 }
@@ -955,8 +997,8 @@ h1, h2, h3, h4, .nav-logo, .btn-rpg, .step-num {
 
 .tier-grid {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+    gap: clamp(1rem, 2vw, 1.5rem);
     align-items: stretch;
 }
 
@@ -1020,12 +1062,12 @@ h1, h2, h3, h4, .nav-logo, .btn-rpg, .step-num {
 /* ── Popular Card ── */
 .tier-popular {
     padding: 1.6rem 1.6rem 2rem;
-    transform: scale(1.06);
+    transform: scale(1.04);
     z-index: 2;
 }
 
 .tier-popular:hover {
-    transform: scale(1.06) translateY(-4px);
+    transform: scale(1.04) translateY(-4px);
 }
 
 /* ── Notch Badge ── */
@@ -1189,6 +1231,9 @@ h1, h2, h3, h4, .nav-logo, .btn-rpg, .step-num {
 .footer-grid {
     display: flex;
     justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 2rem;
     margin-bottom: 4rem;
 }
 
@@ -1206,6 +1251,8 @@ h1, h2, h3, h4, .nav-logo, .btn-rpg, .step-num {
 .footer-links {
     display: flex;
     gap: 2rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
 }
 
 .footer-links a {
@@ -1231,13 +1278,6 @@ h1, h2, h3, h4, .nav-logo, .btn-rpg, .step-num {
    RESPONSIVE
    ═══════════════════════════════════════ */
 @media (max-width: 1024px) {
-    .feature-showcase, .feature-showcase.reverse {
-        flex-direction: column;
-        gap: 3rem;
-    }
-    .img-placeholder {
-        aspect-ratio: 16/9;
-    }
     .hero-content {
         gap: 2.5rem;
     }
@@ -1247,11 +1287,45 @@ h1, h2, h3, h4, .nav-logo, .btn-rpg, .step-num {
         left: auto;
         margin: 2rem auto 0;
     }
-    .pricing-showcase {
+    .tier-popular,
+    .tier-popular:hover {
+        transform: none;
+    }
+}
+
+@media (max-width: 900px) {
+    .features-edge-bg,
+    .features-edge-bg-right {
+        width: 100%;
+    }
+    .features-edge-image-container img {
+        object-position: center;
+        opacity: 0.28;
+    }
+    .features-edge-gradient,
+    .features-edge-gradient-right {
+        background: linear-gradient(
+            180deg,
+            var(--bg-main) 0%,
+            rgba(18, 14, 24, 0.86) 14%,
+            rgba(18, 14, 24, 0.58) 50%,
+            rgba(18, 14, 24, 0.86) 86%,
+            var(--bg-main) 100%
+        );
+    }
+    .features-imposing-layout,
+    .features-layout-reverse {
         grid-template-columns: 1fr;
     }
-    .tier-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+    .features-sticky-header {
+        position: static;
+        max-width: min(100%, 30rem);
+    }
+    .features-layout-reverse .features-sticky-header {
+        order: -1;
+    }
+    .features-list {
+        gap: 2.5rem;
     }
 }
 
@@ -1260,13 +1334,12 @@ h1, h2, h3, h4, .nav-logo, .btn-rpg, .step-num {
         padding: 1rem 0;
     }
     .nav-container {
+        width: calc(100% - 2rem);
+        max-width: 32rem;
         justify-content: center;
         padding: 0.5rem 1rem;
         min-height: 52px;
-        border-radius: 0.5rem;
-    }
-    .tier-grid {
-        grid-template-columns: 1fr;
+        border-radius: 0.75rem;
     }
     .nav-logo-mobile {
         position: absolute;
@@ -1284,8 +1357,8 @@ h1, h2, h3, h4, .nav-logo, .btn-rpg, .step-num {
         display: none;
         position: absolute;
         top: calc(100% + 0.85rem);
-        left: 1rem;
-        right: 1rem;
+        left: 0;
+        right: 0;
         padding: 0.85rem;
         flex-direction: column;
         align-items: stretch;
@@ -1301,20 +1374,38 @@ h1, h2, h3, h4, .nav-logo, .btn-rpg, .step-num {
     .nav-links.open {
         display: flex;
     }
-    .nav-links a,
-    .nav-cta {
+    .nav-links li {
         width: 100%;
+    }
+    .nav-links a,
+    .nav-cta,
+    .nav-links .btn-rpg {
+        width: 100%;
+    }
+    .nav-cta-item {
+        margin-left: 0;
+        padding-left: 0;
+        border-left: none;
     }
     .nav-toggle {
         right: 1rem;
         display: flex;
     }
     .hero-title {
-        font-size: 2.55rem;
+        font-size: clamp(1.95rem, 9vw, 2.45rem);
+        margin-top: 0;
+        max-width: 10ch;
+        margin-inline: auto;
+    }
+    .hero-title br {
+        display: none;
+    }
+    .hero-title br + span::before {
+        content: ' ';
     }
     .hero-content {
-        width: calc(100% - 2rem);
-        padding: 7.5rem 0 3rem;
+        width: 100%;
+        padding: 7rem 1rem 3rem;
         gap: 2rem;
     }
     .hero-panel {
@@ -1336,5 +1427,9 @@ h1, h2, h3, h4, .nav-logo, .btn-rpg, .step-num {
     .footer-grid {
         flex-direction: column;
         gap: 2rem;
+    }
+    .footer-links {
+        flex-direction: column;
+        gap: 0.75rem;
     }
 }
