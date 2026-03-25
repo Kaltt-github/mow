@@ -307,6 +307,10 @@ h1, h2, h3, h4, .nav-logo, .btn-rpg, .step-num {
     border-left: 1px solid rgba(255, 255, 255, 0.14);
 }
 
+.nav-cta-item-mobile {
+    display: none;
+}
+
 /* ═══════════════════════════════════════
    HERO
    ═══════════════════════════════════════ */
@@ -1269,11 +1273,27 @@ h1, h2, h3, h4, .nav-logo, .btn-rpg, .step-num {
     padding: 0.3rem 0.6rem 0.3rem 0.3rem;
     background: rgba(88, 101, 242, 0.15);
     border: 1px solid rgba(88, 101, 242, 0.3);
-    border-radius: 999px;
+    border-radius: 0.75rem;
     transition: border-color 0.2s ease;
 }
 
 .discord-user-badge:hover {
+    border-color: rgba(88, 101, 242, 0.5);
+}
+
+.discord-user-badge-mobile {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    max-width: 100%;
+    padding: 0.25rem 0.5rem 0.25rem 0.25rem;
+    background: rgba(88, 101, 242, 0.15);
+    border: 1px solid rgba(88, 101, 242, 0.3);
+    border-radius: 0.75rem;
+    transition: border-color 0.2s ease;
+}
+
+.discord-user-badge-mobile:hover {
     border-color: rgba(88, 101, 242, 0.5);
 }
 
@@ -1302,7 +1322,7 @@ h1, h2, h3, h4, .nav-logo, .btn-rpg, .step-num {
     height: 20px;
     background: rgba(255, 255, 255, 0.1);
     border: none;
-    border-radius: 50%;
+    border-radius: 0.3rem;
     color: rgba(255, 255, 255, 0.6);
     font-size: 0.7rem;
     cursor: pointer;
@@ -1451,16 +1471,43 @@ h1, h2, h3, h4, .nav-logo, .btn-rpg, .step-num {
     .nav-container {
         width: calc(100% - 2rem);
         max-width: 32rem;
-        justify-content: center;
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        column-gap: 0.75rem;
+        justify-content: normal;
         padding: 0.5rem 1rem;
         min-height: 52px;
         border-radius: 0.75rem;
     }
     .nav-logo-mobile {
-        position: absolute;
-        left: 1rem;
         display: inline-flex;
+        position: static;
+        grid-column: 1;
         font-size: 1.8rem;
+    }
+    .nav-cta-item-mobile {
+        display: flex;
+        align-items: center;
+        position: static;
+        grid-column: 2;
+        min-width: 0;
+        z-index: 10;
+    }
+    .nav-cta-item-mobile .btn-discord-login {
+        max-width: 100%;
+        white-space: nowrap;
+        min-width: 0;
+        padding-inline: 0.7rem;
+        justify-content: center;
+    }
+    .nav-cta-item-mobile .discord-user-badge-mobile {
+        width: 100%;
+        min-width: 0;
+    }
+    .nav-cta-item-mobile .discord-user-name {
+        flex: 1;
+        min-width: 0;
+        max-width: none;
     }
     .nav-brand-item {
         display: none;
@@ -1501,10 +1548,13 @@ h1, h2, h3, h4, .nav-logo, .btn-rpg, .step-num {
         margin-left: 0;
         padding-left: 0;
         border-left: none;
+        display: none;
     }
     .nav-toggle {
-        right: 1rem;
         display: flex;
+        position: static;
+        grid-column: 3;
+        justify-self: end;
     }
     .hero-title {
         font-size: clamp(1.95rem, 9vw, 2.45rem);
@@ -1546,5 +1596,21 @@ h1, h2, h3, h4, .nav-logo, .btn-rpg, .step-num {
     .footer-links {
         flex-direction: column;
         gap: 0.75rem;
+    }
+}
+
+@media (max-width: 380px) {
+    .nav-container {
+        column-gap: 0.5rem;
+        padding-inline: 0.75rem;
+    }
+    .nav-cta-item-mobile .btn-discord-login {
+        gap: 0.35rem;
+        padding-inline: 0.6rem;
+        font-size: 0.82rem;
+    }
+    .nav-cta-item-mobile .discord-user-badge-mobile {
+        gap: 0.3rem;
+        padding-inline: 0.35rem;
     }
 }

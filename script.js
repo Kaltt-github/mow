@@ -41,26 +41,35 @@ function getAvatarUrl(user) {
     return `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.${ext}?size=64`;
 }
 
-function updateNavbarForUser(user) {
-    const loginSlot = document.getElementById('discordLoginSlot');
-    if (!loginSlot) return;
+function updateSlot(slotElement, user, isMobileSlot = false) {
+    if (!slotElement) return;
 
     if (user) {
-        loginSlot.innerHTML = `
-            <div class="discord-user-badge">
+        const badgeClass = isMobileSlot ? 'discord-user-badge-mobile' : 'discord-user-badge';
+        const logoutBtnId = isMobileSlot ? 'discordLogoutMobile' : 'discordLogout';
+        slotElement.innerHTML = `
+            <div class="${badgeClass}">
                 <img class="discord-user-avatar" src="${getAvatarUrl(user)}" alt="${user.username}">
                 <span class="discord-user-name">${user.global_name || user.username}</span>
-                <button class="discord-logout-btn" id="discordLogout" title="Cerrar sesión">✕</button>
+                <button class="discord-logout-btn" id="${logoutBtnId}" title="Cerrar sesión">✕</button>
             </div>
         `;
-        document.getElementById('discordLogout')?.addEventListener('click', () => {
+        document.getElementById(logoutBtnId)?.addEventListener('click', () => {
             clearSession();
             updateNavbarForUser(null);
             updatePaypalGate(null);
         });
     } else {
-        loginSlot.innerHTML = `<a href="${DISCORD_AUTH_URL}" class="btn-discord-login"><svg width="20" height="15" viewBox="0 0 71 55" fill="none"><path d="M60.1 4.9A58.5 58.5 0 0045.4.2a.2.2 0 00-.2.1 40.8 40.8 0 00-1.8 3.7 54 54 0 00-16.2 0A37.1 37.1 0 0025.4.3a.2.2 0 00-.2-.1A58.4 58.4 0 0010.5 5a.2.2 0 00-.1 0C1.5 18 -.9 30.6.3 43a.2.2 0 000 .2A58.7 58.7 0 0017.8 55a.2.2 0 00.3-.1 42 42 0 003.6-5.9.2.2 0 00-.1-.3 38.6 38.6 0 01-5.5-2.6.2.2 0 01 0-.4l1.1-.9a.2.2 0 01.2 0 42 42 0 0035.6 0 .2.2 0 01.2 0l1.1.9a.2.2 0 010 .3 36.3 36.3 0 01-5.5 2.7.2.2 0 00-.1.3 47.2 47.2 0 003.6 5.9.2.2 0 00.2 0A58.5 58.5 0 0070.3 43.2a.2.2 0 000-.1c1.4-14.7-2.4-27.4-10-38.2a.2.2 0 00-.2 0zM23.7 35.3c-3.3 0-6.1-3.1-6.1-6.9s2.7-6.9 6.1-6.9 6.2 3.1 6.1 6.9c0 3.8-2.7 6.9-6.1 6.9zm22.6 0c-3.3 0-6.1-3.1-6.1-6.9s2.7-6.9 6.1-6.9 6.2 3.1 6.1 6.9c0 3.8-2.7 6.9-6.1 6.9z" fill="currentColor"/></svg> Entrar con Discord</a>`;
+        slotElement.innerHTML = `<a href="${DISCORD_AUTH_URL}" class="btn-discord-login"><svg width="20" height="15" viewBox="0 0 71 55" fill="none"><path d="M60.1 4.9A58.5 58.5 0 0045.4.2a.2.2 0 00-.2.1 40.8 40.8 0 00-1.8 3.7 54 54 0 00-16.2 0A37.1 37.1 0 0025.4.3a.2.2 0 00-.2-.1A58.4 58.4 0 0010.5 5a.2.2 0 00-.1 0C1.5 18 -.9 30.6.3 43a.2.2 0 000 .2A58.7 58.7 0 0017.8 55a.2.2 0 00.3-.1 42 42 0 003.6-5.9.2.2 0 00-.1-.3 38.6 38.6 0 01-5.5-2.6.2.2 0 01 0-.4l1.1-.9a.2.2 0 01.2 0 42 42 0 0035.6 0 .2.2 0 01.2 0l1.1.9a.2.2 0 010 .3 36.3 36.3 0 01-5.5 2.7.2.2 0 00-.1.3 47.2 47.2 0 003.6 5.9.2.2 0 00.2 0A58.5 58.5 0 0070.3 43.2a.2.2 0 000-.1c1.4-14.7-2.4-27.4-10-38.2a.2.2 0 00-.2 0zM23.7 35.3c-3.3 0-6.1-3.1-6.1-6.9s2.7-6.9 6.1-6.9 6.2 3.1 6.1 6.9c0 3.8-2.7 6.9-6.1 6.9zm22.6 0c-3.3 0-6.1-3.1-6.1-6.9s2.7-6.9 6.1-6.9 6.2 3.1 6.1 6.9c0 3.8-2.7 6.9-6.1 6.9z" fill="currentColor"/></svg> Entrar con Discord</a>`;
     }
+}
+
+function updateNavbarForUser(user) {
+    const loginSlot = document.getElementById('discordLoginSlot');
+    const loginSlotMobile = document.getElementById('discordLoginSlotMobile');
+    
+    updateSlot(loginSlot, user, false);
+    updateSlot(loginSlotMobile, user, true);
 }
 
 function updatePaypalGate(user) {
