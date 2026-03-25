@@ -1220,6 +1220,116 @@ h1, h2, h3, h4, .nav-logo, .btn-rpg, .step-num {
 }
 
 /* ═══════════════════════════════════════
+   DISCORD LOGIN
+   ═══════════════════════════════════════ */
+.btn-discord-login {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 40px;
+    padding: 0 0.75rem;
+    background: #5865F2;
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    font-family: system-ui, -apple-system, sans-serif;
+    border: none;
+    border-radius: 0.5rem;
+    transition: background 0.2s ease, transform 0.2s ease;
+    cursor: pointer;
+}
+
+.btn-discord-login:hover {
+    background: #4752c4;
+    transform: translateY(-1px);
+}
+
+.btn-discord-login svg {
+    flex-shrink: 0;
+}
+
+.btn-discord-login--small {
+    min-height: 36px;
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+}
+
+.nav-discord-item {
+    display: flex;
+    align-items: center;
+    margin-left: 0.2rem;
+}
+
+/* User badge (logged in state) */
+.discord-user-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.3rem 0.6rem 0.3rem 0.3rem;
+    background: rgba(88, 101, 242, 0.15);
+    border: 1px solid rgba(88, 101, 242, 0.3);
+    border-radius: 999px;
+    transition: border-color 0.2s ease;
+}
+
+.discord-user-badge:hover {
+    border-color: rgba(88, 101, 242, 0.5);
+}
+
+.discord-user-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.discord-user-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #fff;
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.discord-logout-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 50%;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.discord-logout-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+/* Login gate message */
+.login-gate {
+    margin-top: auto;
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.login-gate-msg {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+/* ═══════════════════════════════════════
    FOOTER
    ═══════════════════════════════════════ */
 .footer {
