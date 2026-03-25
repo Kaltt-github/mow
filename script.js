@@ -1,9 +1,9 @@
 // ═══════════════════════════════════════
 // DISCORD OAUTH2 (Implicit Grant)
 // ═══════════════════════════════════════
-const DISCORD_CLIENT_ID = '989897488980922448';
+const DISCORD_CLIENT_ID = '1097264484495663314';
 // Use directory path only (strip filename like index.html)
-const DISCORD_REDIRECT_URI = window.location.origin + window.location.pathname.replace(/\/[^/]*$/, '/');
+const DISCORD_REDIRECT_URI = 'https://moworld.dev/';
 const DISCORD_SCOPES = 'identify';
 const DISCORD_AUTH_URL = `https://discord.com/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${encodeURIComponent(DISCORD_REDIRECT_URI)}&response_type=token&scope=${DISCORD_SCOPES}`;
 const DISCORD_API = 'https://discord.com/api/v10';
