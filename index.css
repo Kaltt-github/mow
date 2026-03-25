@@ -997,7 +997,7 @@ h1, h2, h3, h4, .nav-logo, .btn-rpg, .step-num {
 
 .tier-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+    grid-template-columns: repeat(4, 1fr);
     gap: clamp(1rem, 2vw, 1.5rem);
     align-items: stretch;
 }
@@ -1401,6 +1401,9 @@ h1, h2, h3, h4, .nav-logo, .btn-rpg, .step-num {
     .tier-popular:hover {
         transform: none;
     }
+    .tier-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 @media (max-width: 900px) {
@@ -1440,6 +1443,9 @@ h1, h2, h3, h4, .nav-logo, .btn-rpg, .step-num {
 }
 
 @media (max-width: 768px) {
+    .tier-grid {
+        grid-template-columns: 1fr;
+    }
     .navbar {
         padding: 1rem 0;
     }
