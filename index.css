@@ -1269,7 +1269,7 @@ h1, h2, h3, h4, .nav-logo, .btn-rpg, .step-num {
     padding: 0.3rem 0.6rem 0.3rem 0.3rem;
     background: rgba(88, 101, 242, 0.15);
     border: 1px solid rgba(88, 101, 242, 0.3);
-    border-radius: 999px;
+    border-radius: 0.5rem;
     transition: border-color 0.2s ease;
 }
 
