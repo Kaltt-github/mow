@@ -2,12 +2,13 @@
 // DISCORD OAUTH2 (Implicit Grant)
 // ═══════════════════════════════════════
 const DISCORD_CLIENT_ID = '1097264484495663314';
-// Use directory path only (strip filename like index.html)
-const DISCORD_REDIRECT_URI = 'https://www.moworld.dev/';
+const DISCORD_REDIRECT_URI = window.MOW_DISCORD_REDIRECT_URI
+    || `${window.location.origin}${window.location.pathname.replace(/[^/]*$/, '')}`;
 const DISCORD_SCOPES = 'identify';
 const DISCORD_AUTH_URL = `https://discord.com/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${encodeURIComponent(DISCORD_REDIRECT_URI)}&response_type=token&scope=${DISCORD_SCOPES}`;
 const DISCORD_API = 'https://discord.com/api/v10';
 const STORAGE_KEY = 'mow_discord_session';
+const PENDING_SUBSCRIPTIONS_KEY = 'mow_pending_paypal_subscriptions';
 
 function getStoredSession() {
     try {
@@ -22,6 +23,114 @@ function storeSession(session) {
 
 function clearSession() {
     localStorage.removeItem(STORAGE_KEY);
+}
+
+function getPendingSubscriptions() {
+    try {
+        const raw = localStorage.getItem(PENDING_SUBSCRIPTIONS_KEY);
+        const parsed = raw ? JSON.parse(raw) : [];
+        return Array.isArray(parsed) ? parsed : [];
+    } catch {
+        return [];
+    }
+}
+
+function storePendingSubscription(entry) {
+    const pending = getPendingSubscriptions().filter(item => item.subscriptionId !== entry.subscriptionId);
+    pending.unshift(entry);
+    localStorage.setItem(PENDING_SUBSCRIPTIONS_KEY, JSON.stringify(pending.slice(0, 20)));
+}
+
+function updateBillingStatus(message, state = 'info') {
+    const status = document.getElementById('billingStatus');
+    if (!status) return;
+    if (!message) {
+        status.hidden = true;
+        status.textContent = '';
+        status.removeAttribute('data-state');
+        return;
+    }
+    status.hidden = false;
+    status.textContent = message;
+    status.setAttribute('data-state', state);
+}
+
+function restorePendingSubscriptionNotice(user) {
+    if (!user) {
+        updateBillingStatus('');
+        return;
+    }
+    const pending = getPendingSubscriptions().find(entry => entry.userId === user.id);
+    if (!pending) return;
+    updateBillingStatus(
+        `Compra registrada para ${pending.tier}. Ahora entra a Discord y usa /suscripciones para reclamar tu suscripcion.`,
+        'info'
+    );
+}
+
+function getCurrentDiscordUser() {
+    const session = getStoredSession();
+    if (!session || session.expiresAt <= Date.now()) return null;
+    return session.user || null;
+}
+
+function ensureDiscordUserForPaypal() {
+    const user = getCurrentDiscordUser();
+    if (!user) {
+        updateBillingStatus('Necesitas iniciar sesion con Discord antes de suscribirte.', 'error');
+        throw new Error('No Discord session available');
+    }
+    return user;
+}
+
+function handlePayPalApproval(tier, planId, data) {
+    const user = ensureDiscordUserForPaypal();
+    storePendingSubscription({
+        userId: user.id,
+        subscriptionId: data.subscriptionID,
+        tier,
+        planId,
+        approvedAt: new Date().toISOString()
+    });
+    updateBillingStatus(
+        `PayPal activo ${tier}. Tu compra se ha guardado y ahora debes usar /suscripciones en Discord para reclamar tu suscripcion.`,
+        'success'
+    );
+}
+
+function renderPayPalButtons() {
+    if (!window.paypal) return;
+    document.querySelectorAll('.paypal-tier-container').forEach(container => {
+        if (container.dataset.paypalRendered === 'true') return;
+        const planId = container.dataset.paypalPlanId;
+        const tier = container.dataset.paypalTier || 'suscripcion';
+        if (!planId) return;
+
+        paypal.Buttons({
+            style: {
+                shape: 'rect',
+                color: 'gold',
+                layout: 'vertical',
+                label: 'subscribe'
+            },
+            createSubscription: function(data, actions) {
+                const user = ensureDiscordUserForPaypal();
+                return actions.subscription.create({
+                    plan_id: planId,
+                    custom_id: user.id
+                });
+            },
+            onApprove: function(data) {
+                handlePayPalApproval(tier, planId, data);
+            },
+            onError: function(err) {
+                console.error('PayPal subscription error:', err);
+                updateBillingStatus('No se pudo iniciar la suscripcion con PayPal. Intentalo de nuevo.', 'error');
+            }
+        }).render(`#${container.id}`);
+
+        container.dataset.paypalRendered = 'true';
+    });
 }
 
 async function fetchDiscordUser(accessToken) {
@@ -57,6 +166,7 @@ function updateNavbarForUser(user) {
             clearSession();
             updateNavbarForUser(null);
             updatePaypalGate(null);
+            updateBillingStatus('');
         });
     } else {
         loginSlot.innerHTML = `<a href="${DISCORD_AUTH_URL}" class="btn-discord-login"><svg width="20" height="15" viewBox="0 0 71 55" fill="none"><path d="M60.1 4.9A58.5 58.5 0 0045.4.2a.2.2 0 00-.2.1 40.8 40.8 0 00-1.8 3.7 54 54 0 00-16.2 0A37.1 37.1 0 0025.4.3a.2.2 0 00-.2-.1A58.4 58.4 0 0010.5 5a.2.2 0 00-.1 0C1.5 18 -.9 30.6.3 43a.2.2 0 000 .2A58.7 58.7 0 0017.8 55a.2.2 0 00.3-.1 42 42 0 003.6-5.9.2.2 0 00-.1-.3 38.6 38.6 0 01-5.5-2.6.2.2 0 01 0-.4l1.1-.9a.2.2 0 01.2 0 42 42 0 0035.6 0 .2.2 0 01.2 0l1.1.9a.2.2 0 010 .3 36.3 36.3 0 01-5.5 2.7.2.2 0 00-.1.3 47.2 47.2 0 003.6 5.9.2.2 0 00.2 0A58.5 58.5 0 0070.3 43.2a.2.2 0 000-.1c1.4-14.7-2.4-27.4-10-38.2a.2.2 0 00-.2 0zM23.7 35.3c-3.3 0-6.1-3.1-6.1-6.9s2.7-6.9 6.1-6.9 6.2 3.1 6.1 6.9c0 3.8-2.7 6.9-6.1 6.9zm22.6 0c-3.3 0-6.1-3.1-6.1-6.9s2.7-6.9 6.1-6.9 6.2 3.1 6.1 6.9c0 3.8-2.7 6.9-6.1 6.9z" fill="currentColor"/></svg> Entrar con Discord</a>`;
@@ -65,7 +175,6 @@ function updateNavbarForUser(user) {
 
 function updatePaypalGate(user) {
     const containers = document.querySelectorAll('.paypal-tier-container');
-    const gateMsg = document.getElementById('loginGateMsg');
 
     if (!user) {
         // Hide PayPal buttons, show gate message
@@ -131,6 +240,8 @@ async function initDiscordAuth() {
 
     updateNavbarForUser(user);
     updatePaypalGate(user);
+    renderPayPalButtons();
+    restorePendingSubscriptionNotice(user);
 }
 
 document.addEventListener('DOMContentLoaded', () => {

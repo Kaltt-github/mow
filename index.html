@@ -193,6 +193,7 @@
                 <h2 id="pricing-title">Suscripciones de Niutem</h2>
                 <p>Estos tiers se aplican exclusivamente dentro de Niutem. Cada nivel suma nuevas razas, opciones de personalizacion y ventajas que afectan de forma directa a tu experiencia en el servidor.</p>
             </div>
+            <div id="billingStatus" class="billing-status" hidden></div>
 
             <div class="tier-grid">
                 <article class="tier-box glass-card">
@@ -209,7 +210,7 @@
                         id="paypal-button-container-tier1"
                         class="paypal-tier-container"
                         data-paypal-plan-id="P-2KJ10306R8130061BNHBSCOA"
-                        data-paypal-tier="Tier 1"
+                        data-paypal-tier="Novice"
                     ></div>
                 </article>
 
@@ -230,7 +231,7 @@
                         id="paypal-button-container-tier2"
                         class="paypal-tier-container"
                         data-paypal-plan-id="P-4UE391120K964305JNHBSC7A"
-                        data-paypal-tier="Tier 2"
+                        data-paypal-tier="Adeptus"
                     ></div>
                 </article>
 
@@ -250,7 +251,7 @@
                         id="paypal-button-container-tier3"
                         class="paypal-tier-container"
                         data-paypal-plan-id="P-38W417536C4778915NHBSD3A"
-                        data-paypal-tier="Tier 3"
+                        data-paypal-tier="Magister"
                     ></div>
                 </article>
 
@@ -269,7 +270,7 @@
                         id="paypal-button-container-tier4"
                         class="paypal-tier-container"
                         data-paypal-plan-id="P-8BY60031BX901473TNHBSEFY"
-                        data-paypal-tier="Tier 4"
+                        data-paypal-tier="Imperator"
                     ></div>
                 </article>
             </div>
@@ -300,91 +301,6 @@
 </footer>
 
 <script src="https://www.paypal.com/sdk/js?client-id=AQHB15zh89MYXNedFDgNwhKow8punSh8_bufo4EkvJfCBm-2lFeNPynKwJ0CjEj3Xhb8BB1spWysKGC1&vault=true&intent=subscription" data-sdk-integration-source="button-factory"></script>
-<script>
-    paypal.Buttons({
-        style: {
-            shape: 'rect',
-            color: 'gold',
-            layout: 'vertical',
-            label: 'subscribe'
-        },
-        createSubscription: function(data, actions) {
-            return actions.subscription.create({
-                plan_id: 'P-2KJ10306R8130061BNHBSCOA'
-            });
-        },
-        onApprove: function(data) {
-            alert('Suscripcion activada para Tier 1: ' + data.subscriptionID);
-        },
-        onError: function(err) {
-            console.error('PayPal subscription error:', err);
-            alert('No se pudo iniciar la suscripcion con PayPal. Intentalo de nuevo.');
-        }
-    }).render('#paypal-button-container-tier1');
-
-    paypal.Buttons({
-        style: {
-            shape: 'rect',
-            color: 'gold',
-            layout: 'vertical',
-            label: 'subscribe'
-        },
-        createSubscription: function(data, actions) {
-            return actions.subscription.create({
-                plan_id: 'P-4UE391120K964305JNHBSC7A'
-            });
-        },
-        onApprove: function(data) {
-            alert('Suscripcion activada para Tier 2: ' + data.subscriptionID);
-        },
-        onError: function(err) {
-            console.error('PayPal subscription error:', err);
-            alert('No se pudo iniciar la suscripcion con PayPal. Intentalo de nuevo.');
-        }
-    }).render('#paypal-button-container-tier2');
-
-    paypal.Buttons({
-        style: {
-            shape: 'rect',
-            color: 'gold',
-            layout: 'vertical',
-            label: 'subscribe'
-        },
-        createSubscription: function(data, actions) {
-            return actions.subscription.create({
-                plan_id: 'P-38W417536C4778915NHBSD3A'
-            });
-        },
-        onApprove: function(data) {
-            alert('Suscripcion activada para Tier 3: ' + data.subscriptionID);
-        },
-        onError: function(err) {
-            console.error('PayPal subscription error:', err);
-            alert('No se pudo iniciar la suscripcion con PayPal. Intentalo de nuevo.');
-        }
-    }).render('#paypal-button-container-tier3');
-
-    paypal.Buttons({
-        style: {
-            shape: 'rect',
-            color: 'gold',
-            layout: 'vertical',
-            label: 'subscribe'
-        },
-        createSubscription: function(data, actions) {
-            return actions.subscription.create({
-                plan_id: 'P-8BY60031BX901473TNHBSEFY'
-            });
-        },
-        onApprove: function(data) {
-            alert('Suscripcion activada para Tier 4: ' + data.subscriptionID);
-        },
-        onError: function(err) {
-            console.error('PayPal subscription error:', err);
-            alert('No se pudo iniciar la suscripcion con PayPal. Intentalo de nuevo.');
-        }
-    }).render('#paypal-button-container-tier4');
-</script>
 <script src="script.js"></script>
 </body>
 </html>

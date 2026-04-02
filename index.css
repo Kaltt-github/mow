@@ -1188,6 +1188,33 @@ h1, h2, h3, h4, .nav-logo, .btn-rpg, .step-num {
     min-height: 48px;
 }
 
+.billing-status {
+    margin: 0 0 1.5rem;
+    padding: 0.95rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.85rem;
+    background: rgba(18, 14, 24, 0.58);
+    box-shadow: 0 12px 26px rgba(0, 0, 0, 0.18);
+    color: #f3efe7;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.billing-status[data-state="success"] {
+    border-color: rgba(212, 160, 23, 0.38);
+    background: rgba(44, 31, 10, 0.58);
+}
+
+.billing-status[data-state="error"] {
+    border-color: rgba(204, 99, 99, 0.4);
+    background: rgba(52, 18, 18, 0.58);
+}
+
+.billing-status[data-state="info"] {
+    border-color: rgba(117, 138, 212, 0.32);
+    background: rgba(18, 24, 48, 0.5);
+}
+
 /* .clients-list empty ruleset removed */
 
 .clients-list h3 {
