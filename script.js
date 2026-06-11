@@ -474,3 +474,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
     progressBars.forEach(bar => { progressObserver.observe(bar); });
 });
+
+const button = document.getElementById("sendClickButton");
+
+button.addEventListener("click", async () => {
+  try {
+    const response = await fetch("https://de-lim-01.vexyhost.com/click", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        action: "click",
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok || !data.ok) {
+      console.error("Error del servidor:", data);
+      alert("No se pudo enviar el mensaje.");
+      return;
+    }
+
+    alert("Mensaje enviado.");
+  } catch (error) {
+    console.error("Error haciendo POST:", error);
+    alert("Error conectando con el bot.");
+  }
+});
