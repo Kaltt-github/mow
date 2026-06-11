@@ -171,17 +171,17 @@ function renderPayPalButtons() {
                 layout: 'vertical',
                 label: 'subscribe'
             },
-            createSubscription: function(data, actions) {
+            createSubscription: function (data, actions) {
                 const user = ensureDiscordUserForPaypal();
                 return actions.subscription.create({
                     plan_id: planId,
                     custom_id: user.id
                 });
             },
-            onApprove: function(data) {
+            onApprove: function (data) {
                 handlePayPalApproval(tier, planId, data);
             },
-            onError: function(err) {
+            onError: function (err) {
                 console.error('PayPal subscription error:', err);
                 updateBillingStatus('No se pudo iniciar la suscripcion con PayPal. Intentalo de nuevo.', 'error');
             }
@@ -209,7 +209,7 @@ function renderPayPalStoreButtons() {
                 layout: 'vertical',
                 label: 'pay'
             },
-            createOrder: function(_data, actions) {
+            createOrder: function (_data, actions) {
                 const user = ensureDiscordUserForPaypal();
                 return actions.order.create({
                     purchase_units: [
@@ -225,13 +225,13 @@ function renderPayPalStoreButtons() {
                     ]
                 });
             },
-            onApprove: function(data, actions) {
+            onApprove: function (data, actions) {
                 return actions.order.capture().then(details => {
                     const captureId = details?.purchase_units?.[0]?.payments?.captures?.[0]?.id || null;
                     handlePayPalStoreApproval(productName, productId, data.orderID, captureId);
                 });
             },
-            onError: function(err) {
+            onError: function (err) {
                 console.error('PayPal store error:', err);
                 updateStoreStatus('No se pudo iniciar la compra con PayPal. Intentalo de nuevo.', 'error');
             }
@@ -475,32 +475,32 @@ document.addEventListener('DOMContentLoaded', () => {
     progressBars.forEach(bar => { progressObserver.observe(bar); });
 });
 
-const button = document.getElementById("sendClickButton");
+const button = document.getElementById("clickme");
 
-async function sendClick() {
+button.addEventListener('click', async () => {
     console.log('BOTON CLICK')
-  try {
-    const response = await fetch("https://de-lim-01.vexyhost.com/click", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        action: "click",
-      }),
-    });
+    try {
+        const response = await fetch("https://de-lim-01.vexyhost.com/click", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                action: "click",
+            }),
+        });
 
-    const data = await response.json();
+        const data = await response.json();
 
-    if (!response.ok || !data.ok) {
-      console.error("Error del servidor:", data);
-      alert("No se pudo enviar el mensaje.");
-      return;
+        if (!response.ok || !data.ok) {
+            console.error("Error del servidor:", data);
+            alert("No se pudo enviar el mensaje.");
+            return;
+        }
+
+        alert("Mensaje enviado.");
+    } catch (error) {
+        console.error("Error haciendo POST:", error);
+        alert("Error conectando con el bot.");
     }
-
-    alert("Mensaje enviado.");
-  } catch (error) {
-    console.error("Error haciendo POST:", error);
-    alert("Error conectando con el bot.");
-  }
-}
+})
