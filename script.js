@@ -477,7 +477,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 const button = document.getElementById("sendClickButton");
 
-button.addEventListener("click", async () => {
+async function sendClick() {
     console.log('BOTON CLICK')
   try {
     const response = await fetch("https://de-lim-01.vexyhost.com/click", {
@@ -503,4 +503,4 @@ button.addEventListener("click", async () => {
     console.error("Error haciendo POST:", error);
     alert("Error conectando con el bot.");
   }
-});
+}
