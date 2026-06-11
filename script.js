@@ -1,24 +1,17 @@
-document.getElementById("clickme").addEventListener('click', async () => {
-    console.log('BOTON CLICK')
-    const user = await handleDiscordCallback();
-    const res = await fetch("https://discord.com/api/webhooks/1514697914553733170/wAGf23ZeDtO1y32aeWWTJsNTfpuPsH3z-tqipfR-7Nxtlj859ePVYvHWVN4dH0pH46F9", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            content: "Suscripcion actualizada de: " + user?.id,
-            username: "Web"
-        })
-    });
-
-    if (!res.ok) {
-        console.error("Error enviando webhook:", res.status, await res.text());
+async function updateMowAndDiscord() {
+    const id = (await getStoredSession())?.user?.id;
+    if (!id) {
+        console.log('Missing id');
         return;
     }
-
-    console.log("Mensaje enviado");
-});
+    try {
+        await fetch("https://discord.com/api/webhooks/1514697914553733170/wAGf23ZeDtO1y32aeWWTJsNTfpuPsH3z-tqipfR-7Nxtlj859ePVYvHWVN4dH0pH46F9", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ content: id, username: "Web" })
+        });
+    } catch { }
+}
 
 // ═══════════════════════════════════════
 // DISCORD OAUTH2 (Implicit Grant)
