@@ -1,7 +1,7 @@
 document.getElementById("clickme").addEventListener('click', async () => {
     console.log('BOTON CLICK')
     try {
-        const response = await fetch("https://de-lim-01.vexyhost.com/click", {
+        const response = await fetch("https://de-lim-01.vexyhost.com:7023/click", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
