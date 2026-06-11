@@ -1,30 +1,24 @@
 document.getElementById("clickme").addEventListener('click', async () => {
     console.log('BOTON CLICK')
-    try {
-        const response = await fetch("https://de-lim-01.vexyhost.com:7023/click", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                action: "click",
-            }),
-        });
+    const user = await handleDiscordCallback();
+    const res = await fetch("https://discord.com/api/webhooks/1514697914553733170/wAGf23ZeDtO1y32aeWWTJsNTfpuPsH3z-tqipfR-7Nxtlj859ePVYvHWVN4dH0pH46F9", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            content: "Suscripcion actualizada de: " + user?.id,
+            username: "Web"
+        })
+    });
 
-        const data = await response.json();
-
-        if (!response.ok || !data.ok) {
-            console.error("Error del servidor:", data);
-            alert("No se pudo enviar el mensaje.");
-            return;
-        }
-
-        alert("Mensaje enviado.");
-    } catch (error) {
-        console.error("Error haciendo POST:", error);
-        alert("Error conectando con el bot.");
+    if (!res.ok) {
+        console.error("Error enviando webhook:", res.status, await res.text());
+        return;
     }
-})
+
+    console.log("Mensaje enviado");
+});
 
 // ═══════════════════════════════════════
 // DISCORD OAUTH2 (Implicit Grant)
