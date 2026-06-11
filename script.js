@@ -478,6 +478,7 @@ document.addEventListener('DOMContentLoaded', () => {
 const button = document.getElementById("sendClickButton");
 
 button.addEventListener("click", async () => {
+    console.log('BOTON CLICK')
   try {
     const response = await fetch("https://de-lim-01.vexyhost.com/click", {
       method: "POST",
